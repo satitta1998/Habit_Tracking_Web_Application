@@ -13,14 +13,13 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDyPuJxmynmkPesx8h4e6EuvdShFp42ETE",
-  authDomain: "habit-tracking-web.firebaseapp.com",
-  projectId: "habit-tracking-web",
-  storageBucket: "habit-tracking-web.firebasestorage.app",
-  messagingSenderId: "1049337366613",
-  appId: "1:1049337366613:web:3ac250877fd08047682cdc"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

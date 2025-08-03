@@ -5,3 +5,4 @@ backend/package-lock.json
 config/Firebase_SDK_Habit_tracking_web.txt
 config/secret_habit-tracking-web-firebase-adminsdk.json
 backend/.env
+fronend/tw-habbits/.env
