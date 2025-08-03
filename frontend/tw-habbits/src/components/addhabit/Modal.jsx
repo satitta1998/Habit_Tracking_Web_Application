@@ -1,4 +1,16 @@
+/** 
+ * Modal Component
+ * Reusable popup diaglog. Collects inputs for adding a new habit (title and color).
+*/
+
+
 import React from "react";
+
+// For local development
+const API_BASE_URL = "http://localhost:3000";
+
+// For production, switch to deployed URL
+//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
 
 const Modal = ({isOpen, close, inputs, title, width = 300, onSubmit, children}) => {
     const handleBackgroundClickClose = (event) =>
@@ -17,12 +29,12 @@ const Modal = ({isOpen, close, inputs, title, width = 300, onSubmit, children}) 
                         }
                         console.log("Debug: data = ", data)
 
-                        fetch(`https://braude-habbits-v2-hksm.vercel.app/add_habit?id=${localStorage.getItem("userID")}&habitName=${encodeURIComponent(data['title'])}&color=${encodeURIComponent(data['color'])}`)
+                        fetch(`${API_BASE_URL}/add_habit?id=${localStorage.getItem("userID")}&habitName=${encodeURIComponent(data['title'])}&color=${encodeURIComponent(data['color'])}`)
                         .then(response => {
                             if (response.ok) {
                                 console.log('Fetch successful');
                                 
-                                return fetch(`https://braude-habbits-v2-hksm.vercel.app/get_user_habits?id=${localStorage.getItem("userID")}`);
+                                return fetch(`${API_BASE_URL}/get_user_habits?id=${localStorage.getItem("userID")}`);
                             } else {
                                 throw new Error('Network response was not ok');
                             }

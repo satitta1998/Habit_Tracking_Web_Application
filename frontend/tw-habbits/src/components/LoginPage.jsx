@@ -1,7 +1,20 @@
+/**
+ * LoginPage Component
+ * This component provides the UI and functionality for both user login and sign-up.
+ * Uses Firebase Authentication.
+ * Adds a new user and automatically adds a default example habit for new user.
+ */
+
 import React, { useState } from "react";
 import DarkModeToggle from "./DarkModeToggle";
 import { auth } from '../firebase/config.js';
 import { signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+// For local development
+const API_BASE_URL = "http://localhost:3000";
+
+// For production, switch to deployed URL
+//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
 
 const LoginPage = ({ onLogin, setIsDarkMode, isDarkMode }) => {
   const [username, setUsername] = useState("");
@@ -12,7 +25,6 @@ const LoginPage = ({ onLogin, setIsDarkMode, isDarkMode }) => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [userAdded, setUserAdded] = useState(false); // State to track if user has been added
-  const [errorMessage, setErrorMessage] = useState(""); // State to hold login error message
 
   const toggleDarkMode = (isDarkMode) => {
     localStorage.setItem("isDarkMode", isDarkMode);
@@ -24,7 +36,13 @@ const LoginPage = ({ onLogin, setIsDarkMode, isDarkMode }) => {
     e.preventDefault();
     const auth = getAuth();
     try {
+      //Check if name and surname are empty or only spaces
+      if(!name.trim()) {
+        throw new Error("Name and surname are required");
+      }
+      // Create a new user account in Firebase Authentication with an email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, signUpPassword);
+
       const user = userCredential.user;
       setUserID(user.uid);
       localStorage.setItem("userID", user.uid);
@@ -33,33 +51,53 @@ const LoginPage = ({ onLogin, setIsDarkMode, isDarkMode }) => {
       console.log("User signed up successfully to authorization mechanism");
       setUserAdded(true); // Set userAdded to true
 
-      fetch(`https://braude-habbits-v2-hksm.vercel.app/add_user?id=${user.uid}&name=${name}&surname=${surname}`)
+      fetch(`${API_BASE_URL}/add_user?id=${user.uid}&name=${name}&surname=${surname}`)
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Failed to add user to Firestore users collection");
+            const errorData = response.json();   //read JSON from backend
+            throw new Error("Failed to add user to Firestore users collection: ", errorData.message);
           }
           return response.json();
         })
         .then((data) => {
           console.log("User added:", data);
           console.log("Adding example habit user-habits collection in Firebase", user.uid);
-          fetch(`https://braude-habbits-v2-hksm.vercel.app/add_habit?id=${encodeURIComponent(user.uid)}&habitName=ExampleHabit&color=${encodeURIComponent('#000000')}`)
+          fetch(`${API_BASE_URL}/add_habit?id=${encodeURIComponent(user.uid)}&habitName=ExampleHabit&color=${encodeURIComponent('#000000')}`)
             .then((response) => {
               console.log("Example habit added successfully", response);
             });
         })
         .catch((error) => {
-          console.error("Error adding user:", error);
+          console.log("Error adding user:", error);
         });
     } catch (error) {
       console.log(`Sign Up Error: ${error.message}`);
+      if(error.code) {
+        // switch-case on error code to give appropriate message
+        switch(error.code) {
+          case 'auth/email-already-in-use':
+            alert('The provided email is already in use by an existing user');
+            break;
+          case 'auth/invalid-email':
+            alert('The provided value for the email user property is invalid');
+            break;
+          case 'auth/missing-password':
+            alert('Missing password')
+            break;
+          case 'auth/weak-password':
+            alert('Weak password: password should be at least 6 characters');
+            break;
+        }
+      } else {
+        alert(`Sign Up Error: ${error.message}`);
+      }
     }
   };
 
   // Handle form submission for logging in
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Reset error message before trying to log in
+    // Log in to an exist user account in Firebase Authentication with an email and password
     signInWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -69,9 +107,22 @@ const LoginPage = ({ onLogin, setIsDarkMode, isDarkMode }) => {
         onLogin();
       })
       .catch((error) => {
-        const errorMessage = error.message;
-        console.log(`Log In Error: ${errorMessage}`);
-        setErrorMessage(errorMessage); // Set error message for display
+        console.log(`Log In Error: ${error.message}`);
+        if(error.code){
+          switch(error.code){
+            case 'auth/invalid-email':
+              alert('The provided value for the email user property is invalid');
+              break;
+            case 'auth/missing-password':
+              alert('Missing password');
+              break;
+            case 'auth/invalid-credential':
+              alert('The provided credentials could not be used or wrong password');
+              break;
+          }
+        } else {
+          alert('Log In Error');
+        }
       });
   };
 
@@ -120,9 +171,6 @@ const LoginPage = ({ onLogin, setIsDarkMode, isDarkMode }) => {
           >
             Log In
           </button>
-          {errorMessage && ( // Conditionally render the error message
-            <p className="text-red-500 mt-2 text-center">{errorMessage}</p>
-          )}
         </form>
 
         {/* Sign Up Form */}

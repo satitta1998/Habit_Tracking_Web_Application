@@ -1,5 +1,19 @@
+/**
+ * HabitListItem Component
+ * Displays a single habit.
+ * Shows the habit name and how many days in the current week the habit was completed. 
+ * Allows user to toggle the active state for each day.
+ * Uses HabitDay component to render each day's button. 
+ */
+
 import React, { useMemo, useState } from "react";
 import HabitDay from "./HabitDay.jsx";
+
+// For local development
+const API_BASE_URL = "http://localhost:3000";
+
+// For production, switch to deployed URL
+//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
 
 // Array of day headers representing the days of the week
 const dayHeaders = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -59,7 +73,7 @@ const HabitListItem = ({ title, color, events, onDelete }) => {
 
         // If a day is activated, add the event to the database
         if (eventStatus === 'add') {
-            fetch(`https://braude-habbits-v2-hksm.vercel.app/add_event_to_habit?id=${localStorage.getItem("userID")}&habitName=${title}&habitEvent=${date}`)
+            fetch(`${API_BASE_URL}/add_event_to_habit?id=${localStorage.getItem("userID")}&habitName=${title}&habitEvent=${date}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to update event');
@@ -72,7 +86,7 @@ const HabitListItem = ({ title, color, events, onDelete }) => {
 
         // If a day is deactivated, remove the event from the database
         } else if (eventStatus === 'remove') {
-            fetch(`https://braude-habbits-v2-hksm.vercel.app/delete_event_from_habit?id=${localStorage.getItem("userID")}&habitName=${title}&eventDate=${date}`)
+            fetch(`${API_BASE_URL}/delete_event_from_habit?id=${localStorage.getItem("userID")}&habitName=${title}&eventDate=${date}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to delete event');

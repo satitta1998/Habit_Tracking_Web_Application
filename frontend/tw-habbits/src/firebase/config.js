@@ -1,3 +1,5 @@
+/** Required in frontend because it lets client-side app know how to connect to Firebase project using the client SDK. */
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -11,15 +13,14 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyC31O-YWZQIJSlZtN1hZ52_sKVaMbjP2CE",
-  authDomain: "braude-web-project.firebaseapp.com",
-  databaseURL: "https://braude-web-project-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "braude-web-project",
-  storageBucket: "braude-web-project.appspot.com",
-  messagingSenderId: "581612367191",
-  appId: "1:581612367191:web:da8f65e3377788e64aa212",
-  measurementId: "G-R9MTKB49SG"
+  apiKey: "AIzaSyDyPuJxmynmkPesx8h4e6EuvdShFp42ETE",
+  authDomain: "habit-tracking-web.firebaseapp.com",
+  projectId: "habit-tracking-web",
+  storageBucket: "habit-tracking-web.firebasestorage.app",
+  messagingSenderId: "1049337366613",
+  appId: "1:1049337366613:web:3ac250877fd08047682cdc"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

@@ -1,3 +1,9 @@
+/**
+ * BarChart Component
+ * Responsible for rendering a bar chart using the Chart.js.
+ * It is used to visualize data such as the completion percentage of habits for the user's friends.
+ */
+
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';

@@ -1,11 +1,7 @@
-hw2/config/braude-web-project-firebase-adminsdk-t9wax-cf6e470977.json
-config/braude-web-project-firebase-adminsdk-t9wax-cf6e470977.json
-frontend/config/braude-web-project-firebase-adminsdk-t9wax-cf6e470977.json
-backend/config/braude-web-project-firebase-adminsdk-t9wax-cf6e470977.json
 frontend/tw-habbits/node_modules
 backend/node_modules
 frontend/package-lock.json
 backend/package-lock.json
-config/secret_firebase_base64.txt
-config/secret_firebase_base64.json
+config/Firebase_SDK_Habit_tracking_web.txt
+config/secret_habit-tracking-web-firebase-adminsdk.json
 backend/.env

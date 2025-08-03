@@ -1,3 +1,6 @@
+/** index.js file sets up a backend server that connects to Firebase Firestore (via Firebase Admin SDK)
+ * and exposes  REST API endpoints for Habit Tracking application. */
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -18,7 +21,8 @@ app.get('/add_user', async (req, res) => {
   console.log('I am in add_user');
   const { id, name, surname } = req.query;
   if (!id || !name || !surname) {
-    return res.status(400).send('ID, name, and surname are required');
+    // Error 400 - sign-in request with password couldn't be processed
+    return res.status(400).json({success: false, message: "ID, name, and surname are required"});
   }
   try {
     const peopleRef4 = db.collection('users').doc(id);
@@ -30,7 +34,8 @@ app.get('/add_user', async (req, res) => {
     res.json({ success: true, message: "User added successfully" });
   } catch (error) {
     console.error(`Error adding ${name} ${surname}: `, error);
-    res.status(500).send('Error adding user');
+    // Error 500 - server got an unexpected condition and could not process the request
+    res.status(500).json({success: false, message: "Error adding user: ", error});
   }
 });
 

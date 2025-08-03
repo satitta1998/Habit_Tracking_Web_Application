@@ -1,7 +1,20 @@
+/**
+ * Dashboard Component
+ * Displays the main dashboard of the habit tracking application.
+ * Displays personal user data. Displays the user's daily habit success rate as a pie chart.
+ * Displays the competition data showing friends' success rates in a bar chart.
+ */
+
 import React, { useState, useEffect } from "react";
 import PieChart from "./PieChart";
 import BarChart from "./BarChart";
 import DashboardIntro from "./DashboardIntro";
+
+// For local development
+const API_BASE_URL = "http://localhost:3000";
+
+// For production, switch to deployed URL
+//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
 
 const Dashboard = ({ isDarkMode }) => {
   const [userData, setUserData] = useState(null); // State to hold user data
@@ -18,7 +31,7 @@ const Dashboard = ({ isDarkMode }) => {
   const fetchUserData = () => {
     setLoading(true);
     fetch(
-      `https://braude-habbits-v2-hksm.vercel.app/get_user_personal_data?id=${localStorage.getItem(
+      `${API_BASE_URL}/get_user_personal_data?id=${localStorage.getItem(
         "userID"
       )}`
     )
@@ -42,7 +55,7 @@ const Dashboard = ({ isDarkMode }) => {
   useEffect(() => {
     const calcPercentage = () => {
       fetch(
-        `https://braude-habbits-v2-hksm.vercel.app/get_user_habits?id=${localStorage.getItem(
+        `${API_BASE_URL}/get_user_habits?id=${localStorage.getItem(
           "userID"
         )}`
       )
@@ -82,7 +95,7 @@ const Dashboard = ({ isDarkMode }) => {
         const fetchFriendData = async (friend) => {
           try {
             const personalResponse = await fetch(
-              `https://braude-habbits-v2-hksm.vercel.app/get_user_personal_data?id=${friend}`
+              `${API_BASE_URL}/get_user_personal_data?id=${friend}`
             );
             if (!personalResponse.ok) {
               throw new Error(`Failed to fetch personal data for friend ID: ${friend}`);
@@ -90,7 +103,7 @@ const Dashboard = ({ isDarkMode }) => {
             const personalData = await personalResponse.json();
   
             const habitsResponse = await fetch(
-              `https://braude-habbits-v2-hksm.vercel.app/get_user_habits?id=${friend}`
+              `${API_BASE_URL}/get_user_habits?id=${friend}`
             );
             if (!habitsResponse.ok) {
               if (habitsResponse.status === 404) {
@@ -166,7 +179,7 @@ const Dashboard = ({ isDarkMode }) => {
               <p className="text-black dark:text-white">
                 You are not connected to any friends yet!
                 <br />
-                Please contact the dev team to connect to your friends!
+                Please go to Add Friend tab to add your first friend!
               </p>
             )}
           </div>

@@ -6,6 +6,12 @@
 
 import React, { useState, useEffect } from 'react';
 
+// For local development
+const API_BASE_URL = "http://localhost:3000";
+
+// For production, switch to deployed URL
+//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
+
 const Calendar = ({ currentMonth, currentYear, id, isEditable, onDayClick, events, color, title }) => {
   const [markedDays, setMarkedDays] = useState({});
 
@@ -34,7 +40,7 @@ const Calendar = ({ currentMonth, currentYear, id, isEditable, onDayClick, event
     
     // If the day is not marked, add the event to the database
     if (!isMarked) {
-      fetch(`https://braude-habbits-v2-hksm.vercel.app/add_event_to_habit?id=${id}&habitName=${title}&habitEvent=${date}`)
+      fetch(`${API_BASE_URL}/add_event_to_habit?id=${id}&habitName=${title}&habitEvent=${date}`)
         .then(response => {
           if (!response.ok) throw new Error('Failed to update event');
           console.log("Added event to DB");
@@ -44,7 +50,7 @@ const Calendar = ({ currentMonth, currentYear, id, isEditable, onDayClick, event
       events.push(date);
     } else {
       // If the day is already marked, remove the event from the database
-      fetch(`https://braude-habbits-v2-hksm.vercel.app/delete_event_from_habit?id=${id}&habitName=${title}&eventDate=${date}`)
+      fetch(`${API_BASE_URL}/delete_event_from_habit?id=${id}&habitName=${title}&eventDate=${date}`)
         .then(response => {
           if (!response.ok) throw new Error('Failed to delete event');
           console.log("Deleted event from DB");

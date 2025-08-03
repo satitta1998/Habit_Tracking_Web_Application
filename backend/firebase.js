@@ -1,3 +1,5 @@
+/** firebase.js is Firebase Admin initialization module for the backend. */
+
 const {initializeApp, cert} = require('firebase-admin/app')
 const {getFirestore , FieldValue} = require('firebase-admin/firestore')
 const dotenv = require('dotenv');

@@ -1,6 +1,21 @@
+/**
+ * HabitList Component
+ * Manages and displays a list of user habits in "Add habit" tab. 
+ * Displays all user's habits as a grid of HabitListItem components.
+ * Provide functionality to add a new habit and delete existing habits.
+ * Manage the "New Habit" modal (popup) window.
+ */
+
+
 import React, { useState, useEffect } from "react";
 import HabitListItem from "./HabitListItem.jsx";
 import Modal from "./Modal.jsx";
+
+// For local development
+const API_BASE_URL = "http://localhost:3000";
+
+// For production, switch to deployed URL
+//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
 
 const HabitList = () => {
     // State to control the modal visibility
@@ -10,7 +25,7 @@ const HabitList = () => {
     const [habitList, setHabitList] = useState([]);
 
     const fetchHabits = () => {
-        fetch(`https://braude-habbits-v2-hksm.vercel.app/get_user_habits?id=${localStorage.getItem("userID")}`)
+        fetch(`${API_BASE_URL}/get_user_habits?id=${localStorage.getItem("userID")}`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -38,6 +53,7 @@ const HabitList = () => {
             })
             .catch(error => {
                 console.log('Error:', error);
+                alert(`Error: ${error}`)
             });
     };
 
@@ -61,7 +77,7 @@ const HabitList = () => {
         setHabitList(updatedHabitList);
         
         // Send a request to delete the habit from the server
-        fetch(`https://braude-habbits-v2-hksm.vercel.app/delete_habit?id=${localStorage.getItem("userID")}&habitName=${habitToDelete}`)
+        fetch(`${API_BASE_URL}/delete_habit?id=${localStorage.getItem("userID")}&habitName=${habitToDelete}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to delete habit');
@@ -103,6 +119,7 @@ const HabitList = () => {
                         />
                     ))}
                 </div>
+                {/*Modal Component: Popup window that allows user to add a new habit.*/}
                 <Modal 
                     inputs={['title','color']} 
                     title="Add a habit" 

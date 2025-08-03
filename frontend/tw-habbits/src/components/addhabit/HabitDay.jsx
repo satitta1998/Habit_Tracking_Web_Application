@@ -1,3 +1,10 @@
+/**
+ * HabitDay Component
+ * This component represents a single day in the habit tracker view.
+ * It displays day title and a ciruclar button with the day number.
+ * The button background color changes based on the active state.
+ */
+
 import React from 'react';
 
 // Define the HabitDay component that represents a single day in a habit tracker

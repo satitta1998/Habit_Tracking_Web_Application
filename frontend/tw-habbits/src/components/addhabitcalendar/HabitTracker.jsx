@@ -9,6 +9,12 @@ import MonthNavigator from './MonthNavigator.jsx';
 import Calendar from './Calendar.jsx';
 import FriendSelector from './FriendSelector.jsx';
 
+// For local development
+const API_BASE_URL = "http://localhost:3000";
+
+// For production, switch to deployed URL
+//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
+
 const HabitTracker = () => {
   // State to manage user's habits
   const [habitList, setHabitList] = useState([]);
@@ -39,7 +45,7 @@ const HabitTracker = () => {
 
   // Fetch user's habits from the backend
   const fetchHabits = (id) => {
-    fetch(`https://braude-habbits-v2-hksm.vercel.app/get_user_habits?id=${id}`)
+    fetch(`${API_BASE_URL}/get_user_habits?id=${id}`)
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -78,7 +84,7 @@ const HabitTracker = () => {
 
   // Fetch user's friends from the backend
   const fetchFriends = () => {
-    fetch(`https://braude-habbits-v2-hksm.vercel.app/get_user_personal_data?id=${localStorage.getItem("userID")}`)
+    fetch(`${API_BASE_URL}/get_user_personal_data?id=${localStorage.getItem("userID")}`)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -91,7 +97,7 @@ const HabitTracker = () => {
         const newFriendsList = [];
         // Fetch each friend's data by ID
         data.friends.forEach((friendID, index) => {
-          fetch(`https://braude-habbits-v2-hksm.vercel.app/get_user_personal_data?id=${friendID}`)
+          fetch(`${API_BASE_URL}/get_user_personal_data?id=${friendID}`)
           .then(response => {
             if (response.ok) {
               return response.json();
