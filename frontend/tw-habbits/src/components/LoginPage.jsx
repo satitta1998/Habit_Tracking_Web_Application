@@ -11,10 +11,10 @@ import { auth } from '../firebase/config.js';
 import { signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 // For local development
-const API_BASE_URL = "http://localhost:3000";
+//const API_BASE_URL = "http://localhost:3000";
 
 // For production, switch to deployed URL
-//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
+const API_BASE_URL = "https://habit-tracking-web-application.onrender.com";
 
 const LoginPage = ({ onLogin, setIsDarkMode, isDarkMode }) => {
   const [username, setUsername] = useState("");

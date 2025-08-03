@@ -12,10 +12,10 @@ import HabitListItem from "./HabitListItem.jsx";
 import Modal from "./Modal.jsx";
 
 // For local development
-const API_BASE_URL = "http://localhost:3000";
+//const API_BASE_URL = "http://localhost:3000";
 
 // For production, switch to deployed URL
-//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
+const API_BASE_URL = "https://habit-tracking-web-application.onrender.com";
 
 const HabitList = () => {
     // State to control the modal visibility

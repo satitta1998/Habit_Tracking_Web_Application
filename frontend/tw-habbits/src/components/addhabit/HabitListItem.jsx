@@ -10,10 +10,10 @@ import React, { useMemo, useState } from "react";
 import HabitDay from "./HabitDay.jsx";
 
 // For local development
-const API_BASE_URL = "http://localhost:3000";
+//const API_BASE_URL = "http://localhost:3000";
 
 // For production, switch to deployed URL
-//const API_BASE_URL = "https://braude-habbits-v2-hksm.vercel.app";
+const API_BASE_URL = "https://habit-tracking-web-application.onrender.com";
 
 // Array of day headers representing the days of the week
 const dayHeaders = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
